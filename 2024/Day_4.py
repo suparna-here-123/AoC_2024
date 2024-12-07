@@ -56,7 +56,7 @@ def checkDiagonal(row, col, pos, word, curIndex) :
         dRow, dCol = row + 1, col + 1
     
     try :
-        if mat[dRow][dCol] == word[curIndex + 1] :
+        if row > -1 and col > -1 and mat[dRow][dCol] == word[curIndex + 1] :
             #print(word[curIndex + 1], 'matched')
             #print(f"Checking {dRow}, {dCol}")
             return checkDiagonal(dRow, dCol, pos, word, curIndex + 1)
@@ -65,6 +65,7 @@ def checkDiagonal(row, col, pos, word, curIndex) :
     return False
 
 for lineIndex in range(len(mat)) :
+
     line = mat[lineIndex]
     for i in range(len(line)) :
         char = line[i]
