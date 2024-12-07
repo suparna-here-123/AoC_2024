@@ -1,3 +1,5 @@
+import re
+
 def processInput(file) :
     matrix = []
     f = open(r'2024/' + file, 'r')
@@ -12,8 +14,6 @@ def processInput(file) :
 
 #mat = processInput("Inputs/demo.txt")
 mat = processInput("Inputs/Day_4_input.txt")
-for i in mat :
-    print(i)
 count = 0
 
 def checkColumn(word, lineIndex, charIndex) :
@@ -71,43 +71,58 @@ def checkDiagonal(row, col, pos, word, curIndex) :
         return False
     return False
 
+# Part 2
 for lineIndex in range(1, len(mat)) :
     line = mat[lineIndex]
     for i in range(3, len(line) - 3) :
-        char = line[i]
-        # Horizontal + Vertical - Forward and Backwards
-        if char == 'X' :
-            #print(f"Line {lineIndex}, char {i}")
-
-            if checkRow("XMAS", line[i : ]) :
-                #print("Row has")
+        threeChars = line[i : i + 3]
+        if (re.match('M.S', threeChars) and checkDiagonal(lineIndex, i, 'DR', 'MAS', 0) and checkDiagonal(lineIndex, i + 2, 'DL', 'SAM', 0)) or \
+           (re.match('S.M', threeChars) and checkDiagonal(lineIndex, i, 'DR', 'SAM', 0) and checkDiagonal(lineIndex, i + 2, 'DL', 'MAS', 0)) or \
+           (re.match('M.M', threeChars) and checkDiagonal(lineIndex, i, 'DR', 'MAS', 0) and checkDiagonal(lineIndex, i + 2, 'DL', 'MAS', 0)) or \
+           (re.match('S.S', threeChars) and checkDiagonal(lineIndex, i, 'DR', 'SAM', 0) and checkDiagonal(lineIndex, i + 2, 'DL', 'SAM', 0)) :
                 count += 1
-            if checkColumn("XMAS", lineIndex, i) :
-                #print("Column has")
-                count += 1
-            possibleNext = anyNext('XMAS', lineIndex, i)
-            #print(f"Possible diagonals at {possibleNext}")
-            for MPos in possibleNext :
-                mRow, mCol = MPos
-                if mRow < lineIndex and mCol < i :          # Upper left diagonal
-                    pos = 'UL'
-                elif mRow < lineIndex and mCol > i :        # Upper right diagonal
-                    pos = 'UR'
-                elif mRow > lineIndex and mCol < i :        # Down Left diagonal
-                    pos = 'DL'
-                else :                                      # Down right diagonal
-                    pos = 'DR'
-                if checkDiagonal(mRow, mCol, pos, 'MAS', 0) :
-                    #print(f"Diagonal has\n")
-                    count += 1
-
-        # Not checking diagonals from S coz of repetition        
-        elif char == 'S' :
-            #print(f"Line {lineIndex}, char {i}")
-            if checkRow("SAMX", line[i : ]) :
-                #print("Row has")
-                count += 1
-            if checkColumn("SAMX", lineIndex, i) :
-                #print("Column has")
-                count += 1
+    
 print(count)
+
+
+# Part 1
+# for lineIndex in range(1, len(mat)) :
+#     line = mat[lineIndex]
+#     for i in range(3, len(line) - 3) :
+#         char = line[i]
+#         # Horizontal + Vertical - Forward and Backwards
+#         if char == 'X' :
+#             #print(f"Line {lineIndex}, char {i}")
+
+#             if checkRow("XMAS", line[i : ]) :
+#                 #print("Row has")
+#                 count += 1
+#             if checkColumn("XMAS", lineIndex, i) :
+#                 #print("Column has")
+#                 count += 1
+#             possibleNext = anyNext('XMAS', lineIndex, i)
+#             #print(f"Possible diagonals at {possibleNext}")
+#             for MPos in possibleNext :
+#                 mRow, mCol = MPos
+#                 if mRow < lineIndex and mCol < i :          # Upper left diagonal
+#                     pos = 'UL'
+#                 elif mRow < lineIndex and mCol > i :        # Upper right diagonal
+#                     pos = 'UR'
+#                 elif mRow > lineIndex and mCol < i :        # Down Left diagonal
+#                     pos = 'DL'
+#                 else :                                      # Down right diagonal
+#                     pos = 'DR'
+#                 if checkDiagonal(mRow, mCol, pos, 'MAS', 0) :
+#                     #print(f"Diagonal has\n")
+#                     count += 1
+
+#         # Not checking diagonals from S coz of repetition        
+#         elif char == 'S' :
+#             #print(f"Line {lineIndex}, char {i}")
+#             if checkRow("SAMX", line[i : ]) :
+#                 #print("Row has")
+#                 count += 1
+#             if checkColumn("SAMX", lineIndex, i) :
+#                 #print("Column has")
+#                 count += 1
+# print(count)
