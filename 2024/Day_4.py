@@ -2,11 +2,18 @@ def processInput(file) :
     matrix = []
     f = open(r'2024/' + file, 'r')
     for line in f.readlines() :
-        matrix.append(line.strip())
+        matrix.append('ZZZ' + line.strip() + 'ZZZ')
+
+    # Adding padding
+    matrix.insert(0, 'Z' * len(matrix[0]))
+    matrix.append('Z' * len(matrix[0]))
+
     return matrix
 
 #mat = processInput("Inputs/demo.txt")
 mat = processInput("Inputs/Day_4_input.txt")
+for i in mat :
+    print(i)
 count = 0
 
 def checkColumn(word, lineIndex, charIndex) :
@@ -56,7 +63,7 @@ def checkDiagonal(row, col, pos, word, curIndex) :
         dRow, dCol = row + 1, col + 1
     
     try :
-        if row > -1 and col > -1 and mat[dRow][dCol] == word[curIndex + 1] :
+        if 0 <= row < len(mat) and 0 <= col < len(mat[0]) and mat[dRow][dCol] == word[curIndex + 1] :
             #print(word[curIndex + 1], 'matched')
             #print(f"Checking {dRow}, {dCol}")
             return checkDiagonal(dRow, dCol, pos, word, curIndex + 1)
@@ -64,10 +71,9 @@ def checkDiagonal(row, col, pos, word, curIndex) :
         return False
     return False
 
-for lineIndex in range(len(mat)) :
-
+for lineIndex in range(1, len(mat)) :
     line = mat[lineIndex]
-    for i in range(len(line)) :
+    for i in range(3, len(line) - 3) :
         char = line[i]
         # Horizontal + Vertical - Forward and Backwards
         if char == 'X' :
