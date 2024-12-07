@@ -1,11 +1,11 @@
 def processInput(file) :
     matrix = []
-    f = open(file, 'r')
+    f = open(r'2024/' + file, 'r')
     for line in f.readlines() :
         matrix.append(line.strip())
     return matrix
 
-#mat = processInput("Inputs/example_2.txt")
+#mat = processInput("Inputs/demo.txt")
 mat = processInput("Inputs/Day_4_input.txt")
 count = 0
 
@@ -70,13 +70,13 @@ for lineIndex in range(len(mat)) :
         char = line[i]
         # Horizontal + Vertical - Forward and Backwards
         if char == 'X' :
-            print(f"Line {lineIndex}, char {i}")
+            #print(f"Line {lineIndex}, char {i}")
 
             if checkRow("XMAS", line[i : ]) :
-                print("Row has")
+                #print("Row has")
                 count += 1
             if checkColumn("XMAS", lineIndex, i) :
-                print("Column has")
+                #print("Column has")
                 count += 1
             possibleNext = anyNext('XMAS', lineIndex, i)
             #print(f"Possible diagonals at {possibleNext}")
@@ -91,16 +91,16 @@ for lineIndex in range(len(mat)) :
                 else :                                      # Down right diagonal
                     pos = 'DR'
                 if checkDiagonal(mRow, mCol, pos, 'MAS', 0) :
-                    print(f"Diagonal has\n")
+                    #print(f"Diagonal has\n")
                     count += 1
 
         # Not checking diagonals from S coz of repetition        
         elif char == 'S' :
-            print(f"Line {lineIndex}, char {i}")
+            #print(f"Line {lineIndex}, char {i}")
             if checkRow("SAMX", line[i : ]) :
-                print("Row has")
+                #print("Row has")
                 count += 1
             if checkColumn("SAMX", lineIndex, i) :
-                print("Column has")
+                #print("Column has")
                 count += 1
 print(count)
