@@ -8,11 +8,11 @@ def parse(file) :
         res.append(line)
     return res
 
-def find(grid) :
+def findOne(grid) :
     freq = defaultdict(list)
     seen = set()
     m, n = len(grid), len(grid[0])
-    res = 0
+    #res = 0
     for row in range(m) :
         for col in range(n) :
             c = grid[row][col] 
@@ -25,25 +25,39 @@ def find(grid) :
                             X, Y = A[0] + (mul * rowD), A[1] + (mul * colD)
                             if (X, Y) not in ((row, col), nb) and \
                                 0 <= X < m and 0 <= Y < n and (X, Y) not in seen:
-                                    res += 1
+                                    #res += 1
                                     seen.add((X, Y))
-                                # grid[X][Y] != '#':
-                                #     res += 1
-                                #     if grid[X][Y] == '.' :
-                                #         grid[X][Y] = '#'
-                                #     printGrid(grid)
-
                 freq[c].append((row, col))
-    with open('day_8_op.txt', 'w') as f:
+    #return res
+    return len(seen)
+
+def findTwo(grid) :
+    freq = defaultdict(list)
+    seen = set()
+    m, n = len(grid), len(grid[0])
+    for row in range(m) :
+        for col in range(n) :
+            c = grid[row][col]
+            if c not in ['#', '.']:
+                neighbors = freq[c]
+                for nb in neighbors :
+                    rowD, colD = nb[0] - row, nb[1] - col
+                    for mul in (-1, 1) :
+                        X, Y = row + (mul * rowD), col + (mul * colD)
+                        while 0 <= X < m and 0 <= Y < n :
+                                seen.add((X, Y))
+                                seen.add((row, col))
+                                seen.add(nb)
+                                if grid[X][Y] == '.' :
+                                    grid[X][Y] = '#'
+                                
+                                X, Y = X + (mul * rowD), Y + (mul * colD)
+                freq[c].append((row, col))
+    with open('day_8_op.txt', 'w') as f :
         for l in grid :
             f.write(''.join(l) + "\n")
-    print(f"freq : {freq.keys()}")
-    print(f"res : {res}")
     printGrid(grid)
-
-    return res
-
-
+    return len(seen)
 
 def printGrid(grid) :
     nums = list(range(0, len(grid[0]), 1))
@@ -55,10 +69,9 @@ def printGrid(grid) :
         print(i, line)
 
 def main() :
-    grid = parse(r"C:\Users\HP\OneDrive\Desktop\AdventOfCode\2024\Inputs\demo.txt")
-    #grid = parse(r"C:\Users\HP\OneDrive\Desktop\AdventOfCode\2024\Inputs\Day_8_input.txt")
-    #printGrid(grid)
-    print(find(grid))
+    #grid = parse(r"Inputs\demo.txt")
+    #grid = parse(r"Inputs\Day_8_input.txt")
+    #print(findTwo(grid))
 
 
 if __name__== "__main__" :
