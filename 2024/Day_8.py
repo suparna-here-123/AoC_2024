@@ -53,10 +53,6 @@ def findTwo(grid) :
                                 
                                 X, Y = X + (mul * rowD), Y + (mul * colD)
                 freq[c].append((row, col))
-    with open('day_8_op.txt', 'w') as f :
-        for l in grid :
-            f.write(''.join(l) + "\n")
-    printGrid(grid)
     return len(seen)
 
 def printGrid(grid) :
@@ -70,8 +66,8 @@ def printGrid(grid) :
 
 def main() :
     #grid = parse(r"Inputs\demo.txt")
-    #grid = parse(r"Inputs\Day_8_input.txt")
-    #print(findTwo(grid))
+    grid = parse(r"Inputs\Day_8_input.txt")
+    print(findTwo(grid))
 
 
 if __name__== "__main__" :
